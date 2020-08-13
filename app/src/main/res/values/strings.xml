@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Rick and Morty Characters</string>
+    <string name="error_msg">Niestety, coś poszło nie tak. Prosimy spróbować ponownie.</string>
+    <string name="rick">Rick</string>
+</resources>
