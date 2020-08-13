@@ -1,6 +1,7 @@
 package com.pawelsobaszek.rickandmortycharacters.di
 
 import com.pawelsobaszek.rickandmortycharacters.model.CharactersApi
+import com.pawelsobaszek.rickandmortycharacters.model.CharactersService
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -20,5 +21,10 @@ class ApiModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
             .create(CharactersApi::class.java)
+    }
+
+    @Provides
+    fun provideCharactersServices(): CharactersService {
+        return CharactersService()
     }
 }
