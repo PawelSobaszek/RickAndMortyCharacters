@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 data class CharacterList(
+    val info: PageInfo,
     val results: List<Character>
 )
 
@@ -22,7 +23,9 @@ data class Character(
     val location: Objects?
 )
 
-data class APIpages(
+data class PageInfo(
+    @SerializedName("pages")
+    val pages: Int?,
     @SerializedName("next")
     val next: String?,
     @SerializedName("prev")

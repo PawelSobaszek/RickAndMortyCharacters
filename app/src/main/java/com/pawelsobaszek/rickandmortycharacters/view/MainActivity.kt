@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
             viewModel.refresh()
         }
 
+
+
         observeViewModel()
     }
 
