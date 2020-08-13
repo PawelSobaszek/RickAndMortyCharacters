@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pawelsobaszek.rickandmortycharacters.di.DaggerApiComponent
 import com.pawelsobaszek.rickandmortycharacters.model.Character
+import com.pawelsobaszek.rickandmortycharacters.model.CharacterList
 import com.pawelsobaszek.rickandmortycharacters.model.CharactersService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -36,18 +37,16 @@ class ListViewModel : ViewModel() {
             charactersService.getCharacters()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object: DisposableSingleObserver<List<Character>>() {
-                    override fun onSuccess(value: List<Character>?) {
-                        characters.value = value
+                .subscribeWith(object: DisposableSingleObserver<CharacterList>() {
+                    override fun onSuccess(value: CharacterList?) {
+                        characters.value = value?.results
                         charactersLoadError.value = false
                         loading.value = false
-                        print(characters)
                     }
 
                     override fun onError(e: Throwable?) {
                         charactersLoadError.value = true
                         loading.value = false
-                        print(characters)
                     }
                 })
         )

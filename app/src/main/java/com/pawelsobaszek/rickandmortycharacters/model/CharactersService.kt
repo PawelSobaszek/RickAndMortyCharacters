@@ -14,7 +14,7 @@ class CharactersService {
         DaggerApiComponent.create().inject(this)
     }
 
-    fun getCharacters(): Single<List<Character>> {
+    fun getCharacters(): Single<CharacterList> {
         return api.getCharacters()
     }
 }

@@ -39,7 +39,12 @@ class MainActivity : AppCompatActivity() {
         viewModel.characters.observe(this, Observer { characters ->
             characters?.let {
                 charactersList.visibility = View.VISIBLE
-                charactersAdapter.updateCharacters(it) }
+                charactersAdapter.updateCharacters(it)
+                if (characters.isEmpty()) {
+                    viewModel.refresh()
+                }
+            }
+
         })
 
         viewModel.charactersLoadError.observe(this, Observer { isError ->

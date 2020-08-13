@@ -34,8 +34,8 @@ class CharactersListAdapter(var characters: ArrayList<Character>): RecyclerView.
         private val progressDrawable = getProgressDrawable(view.context)
 
         fun bind(character: Character) {
-            characterName.text = character.characterName
-            imageView.loadImage(character.characterImage, progressDrawable)
+            characterName.text = character.name
+            imageView.loadImage(character.image, progressDrawable)
         }
     }
 }

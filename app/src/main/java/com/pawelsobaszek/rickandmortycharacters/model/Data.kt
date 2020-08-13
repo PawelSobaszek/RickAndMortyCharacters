@@ -3,24 +3,28 @@ package com.pawelsobaszek.rickandmortycharacters.model
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-data class Character(
-    @SerializedName("name")
-    val characterName: String?,
-    @SerializedName("image")
-    val characterImage: String?
+data class CharacterList(
+    val results: List<Character>
 )
 
-data class CharacterDetail(
-    @SerializedName("cd_name")
+data class Character(
+    @SerializedName("name")
     val name: String?,
-    @SerializedName("cd_photo")
+    @SerializedName("image")
     val image: String?,
-    @SerializedName("cd_gender")
+    @SerializedName("gender")
     val gender: String?,
-    @SerializedName("cd_status")
+    @SerializedName("status")
     val status: String?,
-    @SerializedName("cd_origin")
+    @SerializedName("origin")
     val origin: Objects?,
-    @SerializedName("cd_location")
+    @SerializedName("location")
     val location: Objects?
+)
+
+data class APIpages(
+    @SerializedName("next")
+    val next: String?,
+    @SerializedName("prev")
+    val prev: String?
 )

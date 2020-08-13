@@ -6,5 +6,5 @@ import retrofit2.http.GET
 interface CharactersApi {
 
     @GET("?page=1")
-    fun getCharacters(): Single<List<Character>>
+    fun getCharacters(): Single<CharacterList>
 }
