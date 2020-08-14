@@ -1,7 +1,6 @@
 package com.pawelsobaszek.rickandmortycharacters.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class CharacterList(
     val info: PageInfo,
