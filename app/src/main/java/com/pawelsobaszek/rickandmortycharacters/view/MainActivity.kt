@@ -3,9 +3,11 @@ package com.pawelsobaszek.rickandmortycharacters.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.pawelsobaszek.rickandmortycharacters.R
 import com.pawelsobaszek.rickandmortycharacters.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -32,7 +34,15 @@ class MainActivity : AppCompatActivity() {
             viewModel.refresh()
         }
 
+        charactersList.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
 
+                if (!recyclerView.canScrollVertically(1)) {
+                    viewModel.nextPage()
+                }
+            }
+        })
 
         observeViewModel()
     }
@@ -41,16 +51,26 @@ class MainActivity : AppCompatActivity() {
         viewModel.characters.observe(this, Observer { characters ->
             characters?.let {
                 charactersList.visibility = View.VISIBLE
-                charactersAdapter.updateCharacters(it)
-                if (characters.isEmpty()) {
-                    viewModel.refresh()
-                }
+                charactersAdapter.updateCharacters(characters)
             }
+        })
 
+        viewModel.nextPageCharacters.observe(this, Observer { nextPageCharacters ->
+            nextPageCharacters?.let {
+                charactersList.visibility = View.VISIBLE
+                charactersAdapter.addNextPageCharacters(nextPageCharacters)
+            }
         })
 
         viewModel.charactersLoadError.observe(this, Observer { isError ->
-            isError?.let { list_error.visibility = if (it) View.VISIBLE else View.GONE }
+            isError?.let { if (it) {
+                list_error.visibility = View.VISIBLE
+                charactersList.visibility = View.GONE
+            } else View.GONE }
+        })
+
+        viewModel.newPageSuccesAdded.observe(this, Observer { newPageSuccesAdded ->
+            newPageSuccesAdded?.let { if (!it) Toast.makeText(this, "Brak połączenia z internetem", Toast.LENGTH_SHORT).show()}
         })
 
         viewModel.loading.observe(this, Observer { isLoading ->
@@ -58,7 +78,6 @@ class MainActivity : AppCompatActivity() {
                 rotateLoading.visibility = if (it) View.VISIBLE else View.GONE
                 if (it) {
                     list_error.visibility = View.GONE
-                    charactersList.visibility = View.GONE
                     rotateLoading.start()
                 } else {
                     rotateLoading.stop()

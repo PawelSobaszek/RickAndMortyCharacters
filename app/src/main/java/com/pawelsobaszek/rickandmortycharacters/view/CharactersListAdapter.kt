@@ -18,6 +18,11 @@ class CharactersListAdapter(var characters: ArrayList<Character>): RecyclerView.
         notifyDataSetChanged()
     }
 
+    fun addNextPageCharacters(nextCharacters: List<Character>) {
+        characters.addAll(nextCharacters)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CharactersViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
     )

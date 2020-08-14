@@ -2,9 +2,10 @@ package com.pawelsobaszek.rickandmortycharacters.model
 
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface CharactersApi {
 
-    @GET("?page=1")
-    fun getCharacters(): Single<CharacterList>
+    @GET("?")
+    fun getCharacters(@Query("page") page: String): Single<CharacterList>
 }
