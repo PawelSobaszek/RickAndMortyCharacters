@@ -10,7 +10,7 @@ import com.pawelsobaszek.rickandmortycharacters.util.getProgressDrawable
 import com.pawelsobaszek.rickandmortycharacters.util.loadImage
 import kotlinx.android.synthetic.main.item_character.view.*
 
-class CharactersListAdapter(var characters: ArrayList<Character>): RecyclerView.Adapter<CharactersListAdapter.CharactersViewHolder>() {
+class CharactersListAdapter(var characters: ArrayList<Character>, val clickListener: CharacterClickListener): RecyclerView.Adapter<CharactersListAdapter.CharactersViewHolder>() {
 
     fun updateCharacters(newCharacters: List<Character>) {
         characters.clear()
@@ -23,9 +23,11 @@ class CharactersListAdapter(var characters: ArrayList<Character>): RecyclerView.
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CharactersViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : CharactersViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
+        val viewHolder = CharactersViewHolder(view, clickListener)
+        return viewHolder
+    }
 
     override fun getItemCount() = characters.size
 
@@ -33,14 +35,16 @@ class CharactersListAdapter(var characters: ArrayList<Character>): RecyclerView.
         holder.bind(characters[position])
     }
 
-    class CharactersViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class CharactersViewHolder(view: View, var clickListener: CharacterClickListener) : RecyclerView.ViewHolder(view) {
         private val imageView = view.iv_character_image
         private val characterName = view.tv_character_name
         private val progressDrawable = getProgressDrawable(view.context)
+        private val layout = view.item_character_layout
 
         fun bind(character: Character) {
             characterName.text = character.name
             imageView.loadImage(character.image, progressDrawable)
+            layout.setOnClickListener { clickListener.onCharacterClick(character) }
         }
     }
 }

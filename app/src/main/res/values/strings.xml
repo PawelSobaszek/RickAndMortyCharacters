@@ -2,4 +2,9 @@
     <string name="app_name">Rick and Morty Characters</string>
     <string name="error_msg">Niestety, coś poszło nie tak. Prosimy spróbować ponownie.</string>
     <string name="rick">Rick</string>
+    <string name="name">Name</string>
+    <string name="gender">Gender</string>
+    <string name="status">Status</string>
+    <string name="origin">Origin</string>
+    <string name="location">Location</string>
 </resources>

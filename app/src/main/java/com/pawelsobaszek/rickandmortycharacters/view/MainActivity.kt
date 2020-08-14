@@ -1,5 +1,6 @@
 package com.pawelsobaszek.rickandmortycharacters.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,13 +10,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pawelsobaszek.rickandmortycharacters.R
+import com.pawelsobaszek.rickandmortycharacters.model.Character
 import com.pawelsobaszek.rickandmortycharacters.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CharacterClickListener {
 
     lateinit var viewModel: ListViewModel
-    private val charactersAdapter = CharactersListAdapter(arrayListOf())
+    private val charactersAdapter = CharactersListAdapter(arrayListOf(), this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +31,20 @@ class MainActivity : AppCompatActivity() {
             adapter = charactersAdapter
         }
 
+        setOnRefreshListener()
+        setOnScrollListener()
+        observeViewModel()
+    }
+
+
+    fun setOnRefreshListener() {
         swipeRefreshLayout.setOnRefreshListener {
             swipeRefreshLayout.isRefreshing = false
             viewModel.refresh()
         }
+    }
 
+    fun setOnScrollListener() {
         charactersList.setOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -43,8 +54,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
-        observeViewModel()
     }
 
     fun observeViewModel() {
@@ -84,6 +93,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onCharacterClick(character: Character) {
+        startActivity(CharacterDetailActivity.getIntent(this, character))
     }
 
 }

@@ -17,13 +17,22 @@ data class Character(
     val gender: String?,
     @SerializedName("status")
     val status: String?,
-    @SerializedName("origin")
-    val origin: Objects?,
-    @SerializedName("location")
-    val location: Objects?
+    val origin: OriginInfo,
+    val location: LocationInfo
 )
 
 data class PageInfo(
     @SerializedName("pages")
     val pages: Int?
 )
+
+data class OriginInfo(
+    @SerializedName("name")
+    val origin: String
+)
+
+data class LocationInfo(
+    @SerializedName("name")
+    val location: String
+)
+
