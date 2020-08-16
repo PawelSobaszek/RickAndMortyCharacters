@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
 
         viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
-        viewModel.refresh()
+        viewModel.initialRefresh()
 
         charactersList.apply {
             layoutManager = LinearLayoutManager(context)
@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(),
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
+                //multiple loading protection
                 if (isLoading) {
                     //nothing
                 } else {

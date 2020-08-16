@@ -31,7 +31,7 @@ class ListViewModel : ViewModel() {
     val nextPage = MutableLiveData<Int>()
     val newPageSuccesAdded = MutableLiveData<Boolean>()
 
-    fun refresh() {
+    fun initialRefresh() {
         fetchCharacters()
     }
 
@@ -48,25 +48,7 @@ class ListViewModel : ViewModel() {
     private fun fetchCharacters() {
         loading.value = true
         if (characters.value == null) {
-            disposable.add(
-                        charactersService.getCharacters("1")
-                            .subscribeOn(Schedulers.newThread())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeWith(object: DisposableSingleObserver<CharacterList>() {
-                                override fun onSuccess(value: CharacterList?) {
-                                    characters.value = value?.results
-                                    charactersLoadError.value = false
-                                    loading.value = false
-                                    page.value = value?.info?.pages
-                                    nextPage.value = 2
-                                }
-
-                                override fun onError(e: Throwable?) {
-                                    charactersLoadError.value = true
-                                    loading.value = false
-                                }
-                            })
-            )
+            loadFirstPage()
         } else {
             charactersLoadError.value = false
             loading.value = false
@@ -97,6 +79,10 @@ class ListViewModel : ViewModel() {
 
     private fun fetchCharactersAfterSwipeUp() {
         loading.value = true
+        loadFirstPage()
+    }
+
+    private fun loadFirstPage() {
         disposable.add(
             charactersService.getCharacters("1")
                 .subscribeOn(Schedulers.newThread())

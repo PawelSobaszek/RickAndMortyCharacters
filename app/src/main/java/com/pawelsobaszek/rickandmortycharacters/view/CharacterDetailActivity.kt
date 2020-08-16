@@ -17,7 +17,6 @@ class CharacterDetailActivity : AppCompatActivity() {
         setContentView(R.layout.character_details_layout)
 
         setDetails()
-
     }
 
     fun setDetails() {
@@ -34,9 +33,6 @@ class CharacterDetailActivity : AppCompatActivity() {
         tv_detail_alive.text = status
         tv_detail_origin.text = origin
         tv_detail_location.text = location
-
-
-
     }
 
     companion object {
