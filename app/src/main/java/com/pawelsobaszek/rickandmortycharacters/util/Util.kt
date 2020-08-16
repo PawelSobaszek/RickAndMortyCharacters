@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.pawelsobaszek.rickandmortycharacters.R
 
+//Ładowanie obrazka
 fun getProgressDrawable(context: Context) : CircularProgressDrawable {
     return CircularProgressDrawable(context).apply {
         strokeWidth = 10f
@@ -15,6 +16,7 @@ fun getProgressDrawable(context: Context) : CircularProgressDrawable {
     }
 }
 
+//Glide
 fun ImageView.loadImage(uri: String?, progressDrawable: CircularProgressDrawable) {
     val options = RequestOptions()
         .placeholder(progressDrawable)
