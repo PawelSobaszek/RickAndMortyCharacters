@@ -65,14 +65,8 @@ class MainActivity : AppCompatActivity(),
         viewModel.characters.observe(this, Observer { characters ->
             characters?.let {
                 charactersList.visibility = View.VISIBLE
+                list_error.visibility = View.GONE
                 charactersAdapter.updateCharacters(characters)
-            }
-        })
-
-        viewModel.nextPageCharacters.observe(this, Observer { nextPageCharacters ->
-            nextPageCharacters?.let {
-                charactersList.visibility = View.VISIBLE
-                charactersAdapter.addNextPageCharacters(nextPageCharacters)
             }
         })
 

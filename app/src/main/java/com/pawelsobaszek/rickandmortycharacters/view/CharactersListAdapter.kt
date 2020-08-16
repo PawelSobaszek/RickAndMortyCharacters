@@ -19,11 +19,6 @@ class CharactersListAdapter(var characters: ArrayList<Character>, val clickListe
         notifyDataSetChanged()
     }
 
-    fun addNextPageCharacters(nextCharacters: List<Character>) {
-        characters.addAll(nextCharacters)
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : CharactersViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
         val viewHolder = CharactersViewHolder(view, clickListener)

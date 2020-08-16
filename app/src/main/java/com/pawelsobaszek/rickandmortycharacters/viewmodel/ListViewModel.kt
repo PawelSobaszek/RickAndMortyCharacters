@@ -43,25 +43,30 @@ class ListViewModel : ViewModel() {
 
     private fun fetchCharacters() {
         loading.value = true
-        disposable.add(
-            charactersService.getCharacters("1")
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object: DisposableSingleObserver<CharacterList>() {
-                    override fun onSuccess(value: CharacterList?) {
-                        characters.value = value?.results
-                        charactersLoadError.value = false
-                        loading.value = false
-                        page.value = value?.info?.pages
-                        nextPage.value = 2
-                    }
+        if (characters.value == null) {
+            disposable.add(
+                charactersService.getCharacters("1")
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(object: DisposableSingleObserver<CharacterList>() {
+                        override fun onSuccess(value: CharacterList?) {
+                            characters.value = value?.results
+                            charactersLoadError.value = false
+                            loading.value = false
+                            page.value = value?.info?.pages
+                            nextPage.value = 2
+                        }
 
-                    override fun onError(e: Throwable?) {
-                        charactersLoadError.value = true
-                        loading.value = false
-                    }
-                })
-        )
+                        override fun onError(e: Throwable?) {
+                            charactersLoadError.value = true
+                            loading.value = false
+                        }
+                    })
+            )
+        } else {
+            charactersLoadError.value = false
+            loading.value = false
+        }
     }
 
     private fun fetchNextPageCharacters() {
@@ -76,6 +81,7 @@ class ListViewModel : ViewModel() {
                         newPageSuccesAdded.value = true
                         nextPageCharacters.value = value?.results
                         loading.value = false
+                        characters.value = characters.value?.plus(nextPageCharacters.value!!)
                     }
                     override fun onError(e: Throwable?) {
                         newPageSuccesAdded.value = false
