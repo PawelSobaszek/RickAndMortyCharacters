@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(),
                 super.onScrollStateChanged(recyclerView, newState)
 
                 if (isLoading) {
-
+                    //nothing
                 } else {
                     if (!recyclerView.canScrollVertically(1)) {
                         viewModel.nextPage()
