@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pawelsobaszek.rickandmortycharacters.R
 import com.pawelsobaszek.rickandmortycharacters.model.Character
+import com.pawelsobaszek.rickandmortycharacters.model.CharacterClickListener
 import com.pawelsobaszek.rickandmortycharacters.util.getProgressDrawable
 import com.pawelsobaszek.rickandmortycharacters.util.loadImage
 import kotlinx.android.synthetic.main.item_character.view.*

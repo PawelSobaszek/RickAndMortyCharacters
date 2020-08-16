@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pawelsobaszek.rickandmortycharacters.R
 import com.pawelsobaszek.rickandmortycharacters.model.Character
+import com.pawelsobaszek.rickandmortycharacters.model.CharacterClickListener
 import com.pawelsobaszek.rickandmortycharacters.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), CharacterClickListener {
+class MainActivity : AppCompatActivity(),
+    CharacterClickListener {
 
     lateinit var viewModel: ListViewModel
     private val charactersAdapter = CharactersListAdapter(arrayListOf(), this)
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity(), CharacterClickListener {
         }
 
         setOnRefreshListener()
-        setOnScrollListener()
+        setOnScrollListener(false)
         observeViewModel()
     }
 
@@ -43,13 +45,17 @@ class MainActivity : AppCompatActivity(), CharacterClickListener {
         }
     }
 
-    fun setOnScrollListener() {
+    fun setOnScrollListener(isLoading: Boolean) {
         charactersList.setOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                if (!recyclerView.canScrollVertically(1)) {
-                    viewModel.nextPage()
+                if (isLoading) {
+
+                } else {
+                    if (!recyclerView.canScrollVertically(1)) {
+                        viewModel.nextPage()
+                    }
                 }
             }
         })
@@ -86,8 +92,10 @@ class MainActivity : AppCompatActivity(), CharacterClickListener {
                 rotateLoading.visibility = if (it) View.VISIBLE else View.GONE
                 if (it) {
                     list_error.visibility = View.GONE
+                    setOnScrollListener(true)
                     rotateLoading.start()
                 } else {
+                    setOnScrollListener(false)
                     rotateLoading.stop()
                 }
             }

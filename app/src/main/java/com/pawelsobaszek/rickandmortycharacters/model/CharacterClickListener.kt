@@ -1,4 +1,4 @@
-package com.pawelsobaszek.rickandmortycharacters.view
+package com.pawelsobaszek.rickandmortycharacters.model
 
 import com.pawelsobaszek.rickandmortycharacters.model.Character
 
